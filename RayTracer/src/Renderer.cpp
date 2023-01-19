@@ -10,7 +10,7 @@ Renderer::Renderer() {}
 
 Renderer::~Renderer() {}
 
-void Renderer::Render(int32_t imageWidth, int32_t imageHeight) {
+void Renderer::Render(int32_t imageWidth, int32_t imageHeight, std::vector<glm::ivec3> imageData) {
 
 	std::ofstream outputFile;
 	outputFile.open("output.ppm");
@@ -26,17 +26,10 @@ void Renderer::Render(int32_t imageWidth, int32_t imageHeight) {
 
 		for (int32_t x = 0; x < imageWidth; x++) {
 
-			glm::vec3 floatColour;
-
-			floatColour.r = (float)x / (float)(imageWidth - 1);
-			floatColour.g = (float)y / (float)(imageHeight - 1);
-			floatColour.b = 0.25;
-
-			glm::ivec3 integerColour;
-
-			integerColour = (glm::ivec3)(floatColour * 255.999f);
-
-			outputFile << integerColour.r << ' ' << integerColour.g << ' ' << integerColour.b << std::endl;
+			outputFile << imageData[(imageHeight - y - 1) * imageWidth + x].r
+				<< ' ' << imageData[(imageHeight - y - 1) * imageWidth + x].g
+				<< ' ' << imageData[(imageHeight - y - 1) * imageWidth + x].b
+				<< std::endl;
 		}
 	}
 

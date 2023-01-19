@@ -16,6 +16,6 @@ glm::vec3 Ray::GetDirection() const {
 	return m_Direction;
 }
 
-glm::vec3 Ray::CalculateAtDistance(float t) const {
+glm::vec3 Ray::GetPositionAtDistance(float t) const {
 	return m_Origin + t * m_Direction;
 }

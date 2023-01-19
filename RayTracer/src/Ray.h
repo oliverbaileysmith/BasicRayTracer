@@ -10,7 +10,7 @@ public:
 	glm::vec3 GetOrigin() const;
 	glm::vec3 GetDirection() const;
 
-	glm::vec3 CalculateAtDistance(float t) const;
+	glm::vec3 GetPositionAtDistance(float t) const;
 
 private:
 	glm::vec3 m_Origin;
