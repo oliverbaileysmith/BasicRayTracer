@@ -2,15 +2,38 @@
 
 #include "vendor/glm/ext/vector_float3.hpp"
 #include "vendor/glm/ext/vector_int3.hpp"
+#include "vendor/glm/gtx/vector_angle.hpp"
 
 #include "Renderer.h"
+#include "Ray.h"
+
+
+glm::vec3 rayColour(const Ray &ray) {
+
+	glm::vec3 unitDirection = glm::normalize(ray.GetDirection());
+	float t = 0.5f * (unitDirection.y + 1.0f);
+	return (1.0f - t) * glm::vec3(1.0f, 1.0f, 1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
+}
+
 
 void main() {
 
 	// Image details
 
-	const int32_t IMAGE_WIDTH = 256;
-	const int32_t IMAGE_HEIGHT = 256;
+	const float IMAGE_ASPECT_RATIO = 16.0f / 9.0f;
+	const int32_t IMAGE_WIDTH = 400;
+	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
+
+	// Camera
+
+	float viewportHeight = 2.0f;
+	float viewportWidth = IMAGE_ASPECT_RATIO * viewportHeight;
+	float focalLength = 1.0f;
+
+	glm::vec3 cameraOrigin = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::vec3 viewportHorizontal = glm::vec3(viewportWidth, 0.0f, 0.0f);
+	glm::vec3 viewportVertical = glm::vec3(0.0f, viewportHeight, 0.0f);
+	glm::vec3 viewportLowerLeftCorner = cameraOrigin - viewportHorizontal / 2.0f - viewportVertical / 2.0f - glm::vec3(0.0f, 0.0f, focalLength);
 
 	// Create image data
 
@@ -21,17 +44,14 @@ void main() {
 
 		for (int32_t x = 0; x < IMAGE_WIDTH; x++) {
 
-			glm::vec3 floatColour;
+			float u = (float)x / (float)(IMAGE_WIDTH - 1);
+			float v = (float)y / (float)(IMAGE_HEIGHT - 1);
 
-			floatColour.r = (float)x / (float)(IMAGE_WIDTH - 1);
-			floatColour.g = (float)y / (float)(IMAGE_HEIGHT - 1);
-			floatColour.b = 0.25;
+			Ray ray(cameraOrigin, viewportLowerLeftCorner + u * viewportHorizontal + v * viewportVertical - cameraOrigin);
 
-			glm::ivec3 integerColour;
+			glm::ivec3 pixelColour = (glm::ivec3)(rayColour(ray) * 255.999f);
 
-			integerColour = (glm::ivec3)(floatColour * 255.999f);
-
-			imageData.emplace_back(integerColour);
+			imageData.emplace_back(pixelColour);
 		}
 	}
 
