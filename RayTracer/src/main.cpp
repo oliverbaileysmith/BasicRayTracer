@@ -7,23 +7,31 @@
 #include "Renderer.h"
 #include "Ray.h"
 
-bool hitSphere(const glm::vec3 &sphereCenter, float sphereRadius, const Ray &ray) {
+float hitSphere(const glm::vec3 &sphereCenter, float sphereRadius, const Ray &ray) {
 	glm::vec3 rayOriginToSphereCenter = ray.GetOrigin() - sphereCenter;
 	float a = glm::dot(ray.GetDirection(), ray.GetDirection());
 	float b = 2.0f * glm::dot(rayOriginToSphereCenter, ray.GetDirection());
 	float c = glm::dot(rayOriginToSphereCenter, rayOriginToSphereCenter) - sphereRadius * sphereRadius;
 	float discriminant = b * b - 4.0f * a * c;
 
-	return (discriminant > 0);
+	if (discriminant < 0) {
+		return -1.0f;
+	} else {
+		return (-b - sqrt(discriminant)) / (2.0f * a);
+	}
 }
 
 glm::vec3 rayColour(const Ray &ray) {
 
-	if (hitSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f, ray))
-		return glm::vec3(1.0f, 0.0f, 0.0f);
+	float t = hitSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f, ray);
+	
+	if (t > 0.0f) {
+		glm::vec3 surfaceNormal = glm::normalize(ray.GetPositionAtDistance(t) - glm::vec3(0.0f, 0.0f, -1.0f));
+		return 0.5f * glm::vec3(surfaceNormal.x + 1.0f, surfaceNormal.y + 1.0f, surfaceNormal.z + 1.0f);
+	}
 
 	glm::vec3 unitDirection = glm::normalize(ray.GetDirection());
-	float t = 0.5f * (unitDirection.y + 1.0f);
+	t = 0.5f * (unitDirection.y + 1.0f);
 	return (1.0f - t) * glm::vec3(1.0f, 1.0f, 1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
 }
 
