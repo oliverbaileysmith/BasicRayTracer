@@ -9,15 +9,15 @@
 
 float hitSphere(const glm::vec3 &sphereCenter, float sphereRadius, const Ray &ray) {
 	glm::vec3 rayOriginToSphereCenter = ray.GetOrigin() - sphereCenter;
-	float a = glm::dot(ray.GetDirection(), ray.GetDirection());
-	float b = 2.0f * glm::dot(rayOriginToSphereCenter, ray.GetDirection());
-	float c = glm::dot(rayOriginToSphereCenter, rayOriginToSphereCenter) - sphereRadius * sphereRadius;
-	float discriminant = b * b - 4.0f * a * c;
+	float a = glm::length2(ray.GetDirection());
+	float halfB = glm::dot(rayOriginToSphereCenter, ray.GetDirection());
+	float c = glm::length2(rayOriginToSphereCenter) - sphereRadius * sphereRadius;
+	float discriminant = halfB * halfB - a * c;
 
 	if (discriminant < 0) {
 		return -1.0f;
 	} else {
-		return (-b - sqrt(discriminant)) / (2.0f * a);
+		return (-halfB - sqrt(discriminant)) / a;
 	}
 }
 
