@@ -1,37 +1,23 @@
-#include <vector>
+#include "Util.h"
+#include "Renderer.h"
+#include "Ray.h"
+#include "HittableObjectList.h"
+#include "Sphere.h"
 
 #include "vendor/glm/ext/vector_float3.hpp"
 #include "vendor/glm/ext/vector_int3.hpp"
 #include "vendor/glm/gtx/vector_angle.hpp"
 
-#include "Renderer.h"
-#include "Ray.h"
+glm::vec3 rayColour(const Ray &ray, const HittableObject &scene) {
 
-float hitSphere(const glm::vec3 &sphereCenter, float sphereRadius, const Ray &ray) {
-	glm::vec3 rayOriginToSphereCenter = ray.GetOrigin() - sphereCenter;
-	float a = glm::length2(ray.GetDirection());
-	float halfB = glm::dot(rayOriginToSphereCenter, ray.GetDirection());
-	float c = glm::length2(rayOriginToSphereCenter) - sphereRadius * sphereRadius;
-	float discriminant = halfB * halfB - a * c;
+	HitRecord hitRecord;
 
-	if (discriminant < 0) {
-		return -1.0f;
-	} else {
-		return (-halfB - sqrt(discriminant)) / a;
-	}
-}
-
-glm::vec3 rayColour(const Ray &ray) {
-
-	float t = hitSphere(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f, ray);
-	
-	if (t > 0.0f) {
-		glm::vec3 surfaceNormal = glm::normalize(ray.GetPositionAtDistance(t) - glm::vec3(0.0f, 0.0f, -1.0f));
-		return 0.5f * glm::vec3(surfaceNormal.x + 1.0f, surfaceNormal.y + 1.0f, surfaceNormal.z + 1.0f);
+	if (scene.Hit(ray, 0.0f, POSITIVE_INFINITY, hitRecord)) {
+		return 0.5f * (hitRecord.m_Normal + glm::vec3(1.0f, 1.0f, 1.0f));
 	}
 
 	glm::vec3 unitDirection = glm::normalize(ray.GetDirection());
-	t = 0.5f * (unitDirection.y + 1.0f);
+	float t = 0.5f * (unitDirection.y + 1.0f);
 	return (1.0f - t) * glm::vec3(1.0f, 1.0f, 1.0f) + t * glm::vec3(0.5f, 0.7f, 1.0f);
 }
 
@@ -43,6 +29,12 @@ void main() {
 	const float IMAGE_ASPECT_RATIO = 16.0f / 9.0f;
 	const int32_t IMAGE_WIDTH = 400;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
+
+	// Scene
+
+	HittableObjectList scene;
+	scene.add(std::make_shared<Sphere>(glm::vec3(0.0f, 0.0f, -1.0f), 0.5f));
+	scene.add(std::make_shared<Sphere>(glm::vec3(0.0f, -100.5f, -1.0f), 100.0f));
 
 	// Camera
 
@@ -69,7 +61,7 @@ void main() {
 
 			Ray ray(cameraOrigin, viewportLowerLeftCorner + u * viewportHorizontal + v * viewportVertical - cameraOrigin);
 
-			glm::ivec3 pixelColour = (glm::ivec3)(rayColour(ray) * 255.999f);
+			glm::ivec3 pixelColour = (glm::ivec3)(rayColour(ray, scene) * 255.999f);
 
 			imageData.emplace_back(pixelColour);
 		}

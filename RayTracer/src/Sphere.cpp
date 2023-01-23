@@ -21,15 +21,16 @@ bool Sphere::Hit(const Ray &ray, float tMin, float tMax, HitRecord &hitRecord) c
     float sqrtDiscriminant = sqrt(discriminant);
 
     float root = (-halfB - sqrtDiscriminant) / a;
-    if (root < tMin || tMax < root) {
+    if (root < tMin || root > tMax) {
         root = (-halfB + sqrtDiscriminant) / a;
-        if (root < tMin || tMax < root)
+        if (root < tMin || root > tMax)
             return false;
     }
 
-    hitRecord.m_t = root;
-    hitRecord.m_HitPoint = ray.GetPositionAtDistance(hitRecord.m_t);
-    hitRecord.m_SurfaceNormal = (hitRecord.m_HitPoint - m_Center) / m_Radius;
+    hitRecord.m_T = root;
+    hitRecord.m_HitPoint = ray.GetPositionAtDistance(hitRecord.m_T);
+    glm::vec3 outwardNormal = (hitRecord.m_HitPoint - m_Center) / m_Radius;
+    hitRecord.m_SetFaceNormal(ray, outwardNormal);
 
     return true;
 
