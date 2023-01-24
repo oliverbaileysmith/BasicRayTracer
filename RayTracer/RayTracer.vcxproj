@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\HittableObjectList.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Ray.cpp" />
@@ -137,6 +138,7 @@
     <Text Include="todo.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\HittableObject.h" />
     <ClInclude Include="src\HittableObjectList.h" />
     <ClInclude Include="src\Ray.h" />

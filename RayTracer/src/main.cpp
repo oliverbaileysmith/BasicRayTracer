@@ -1,8 +1,11 @@
+#include <iostream>
+
 #include "Util.h"
 #include "Renderer.h"
 #include "Ray.h"
 #include "HittableObjectList.h"
 #include "Sphere.h"
+#include "Camera.h"
 
 #include "vendor/glm/ext/vector_float3.hpp"
 #include "vendor/glm/ext/vector_int3.hpp"
@@ -29,6 +32,7 @@ void main() {
 	const float IMAGE_ASPECT_RATIO = 16.0f / 9.0f;
 	const int32_t IMAGE_WIDTH = 400;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
+	const int32_t SAMPLES_PER_PIXEL = 100;
 
 	// Scene
 
@@ -38,14 +42,7 @@ void main() {
 
 	// Camera
 
-	float viewportHeight = 2.0f;
-	float viewportWidth = IMAGE_ASPECT_RATIO * viewportHeight;
-	float focalLength = 1.0f;
-
-	glm::vec3 cameraOrigin = glm::vec3(0.0f, 0.0f, 0.0f);
-	glm::vec3 viewportHorizontal = glm::vec3(viewportWidth, 0.0f, 0.0f);
-	glm::vec3 viewportVertical = glm::vec3(0.0f, viewportHeight, 0.0f);
-	glm::vec3 viewportLowerLeftCorner = cameraOrigin - viewportHorizontal / 2.0f - viewportVertical / 2.0f - glm::vec3(0.0f, 0.0f, focalLength);
+	Camera camera;
 
 	// Create image data
 
@@ -53,17 +50,24 @@ void main() {
 	imageData.reserve(IMAGE_WIDTH * IMAGE_HEIGHT);
 
 	for (int32_t y = IMAGE_HEIGHT - 1; y >= 0; y--) {
+		
+		// Progress indicator
+		std::cout << "\rScanlines remaining: " << y << ' ' << std::flush;
 
 		for (int32_t x = 0; x < IMAGE_WIDTH; x++) {
 
-			float u = (float)x / (float)(IMAGE_WIDTH - 1);
-			float v = (float)y / (float)(IMAGE_HEIGHT - 1);
+			glm::ivec3 pixelColour(0, 0, 0);
+			for (int s = 0; s < SAMPLES_PER_PIXEL; s++) {
 
-			Ray ray(cameraOrigin, viewportLowerLeftCorner + u * viewportHorizontal + v * viewportVertical - cameraOrigin);
+				float u = ((float)x + random_float()) / (float)(IMAGE_WIDTH - 1);
+				float v = ((float)y + random_float()) / (float)(IMAGE_HEIGHT - 1);
 
-			glm::ivec3 pixelColour = (glm::ivec3)(rayColour(ray, scene) * 255.999f);
+				Ray ray = camera.getRay(u, v);
+				pixelColour += (glm::ivec3)(rayColour(ray, scene) * 255.999f);
 
-			imageData.emplace_back(pixelColour);
+			}
+
+			imageData.emplace_back(pixelColour / SAMPLES_PER_PIXEL);
 		}
 	}
 

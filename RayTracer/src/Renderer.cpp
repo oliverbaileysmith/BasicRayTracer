@@ -1,6 +1,5 @@
 #include "Renderer.h"
 
-#include <iostream>
 #include <fstream>
 
 #include "vendor/glm/ext/vector_float3.hpp"
@@ -20,9 +19,6 @@ void Renderer::Render(int32_t imageWidth, int32_t imageHeight, std::vector<glm::
 	outputFile << "255" << std::endl;
 
 	for (int32_t y = imageHeight - 1; y >= 0; y--) {
-
-		// Progress indicator
-		std::cout << "\rScanlines remaining: " << y << ' ' << std::flush;
 
 		for (int32_t x = 0; x < imageWidth; x++) {
 
