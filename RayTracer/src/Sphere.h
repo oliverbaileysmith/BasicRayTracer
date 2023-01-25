@@ -4,11 +4,11 @@
 
 class Sphere : public HittableObject {
 public:
-	Sphere(glm::vec3 center, float radius);
+	Sphere(glm::dvec3 center, double radius);
 
-	virtual bool Hit(const Ray &ray, float tMin, float tMax, HitRecord &hitRecord) const override;
+	virtual bool Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const override;
 
 private:
-	glm::vec3 m_Center;
-	float m_Radius;
+	glm::dvec3 m_Center;
+	double m_Radius;
 };

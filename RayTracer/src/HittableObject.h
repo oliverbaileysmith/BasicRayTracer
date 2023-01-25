@@ -5,12 +5,12 @@
 #include "vendor/glm/gtx/norm.hpp"
 
 struct HitRecord {
-	glm::vec3 m_HitPoint;
-	glm::vec3 m_Normal;
-	float m_T;
+	glm::dvec3 m_HitPoint;
+	glm::dvec3 m_Normal;
+	double m_T;
 	bool m_FrontFace;
 
-	inline void m_SetFaceNormal(const Ray &ray, const glm::vec3 &outwardNormal) {
+	inline void m_SetFaceNormal(const Ray &ray, const glm::dvec3 &outwardNormal) {
 		m_FrontFace = glm::dot(ray.GetDirection(), outwardNormal) < 0;
 		m_Normal = m_FrontFace ? outwardNormal : -outwardNormal;
 	}
@@ -18,5 +18,5 @@ struct HitRecord {
 
 class HittableObject {
 public:
-	virtual bool Hit(const Ray &ray, float tMin, float tMax, HitRecord &hitRecord) const = 0;
+	virtual bool Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const = 0;
 };

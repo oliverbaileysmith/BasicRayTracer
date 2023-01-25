@@ -16,10 +16,10 @@ void HittableObjectList::add(std::shared_ptr<HittableObject> hittableObject) {
 	m_HittableObjects.push_back(hittableObject);
 }
 
-bool HittableObjectList::Hit(const Ray &ray, float tMin, float tMax, HitRecord &hitRecord) const {
+bool HittableObjectList::Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const {
 	HitRecord tempRecord;
 	bool hitAnything = false;
-	float closestSoFar = tMax;
+	double closestSoFar = tMax;
 
 	for (const auto &HittableObject : m_HittableObjects) {
 		if (HittableObject->Hit(ray, tMin, closestSoFar, tempRecord)) {

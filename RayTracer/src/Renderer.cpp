@@ -1,15 +1,36 @@
 #include "Renderer.h"
+#include "Util.h"
 
 #include <fstream>
 
-#include "vendor/glm/ext/vector_float3.hpp"
-#include "vendor/glm/ext/vector_int3.hpp"
+#include "vendor/glm/ext/vector_double3.hpp"
 
-Renderer::Renderer() {}
+Renderer::Renderer(int32_t imageWidth, int32_t imageHeight) {
+	m_ImageData.reserve(imageWidth * imageHeight);
+}
 
 Renderer::~Renderer() {}
 
-void Renderer::Render(int32_t imageWidth, int32_t imageHeight, std::vector<glm::ivec3> imageData) {
+void Renderer::RenderPixel(glm::dvec3 pixelColour, int32_t samplesPerPixel){
+	double r = pixelColour.r;
+	double g = pixelColour.g;
+	double b = pixelColour.b;
+
+	// Divide the colour by the number of samples.
+	double scale = 1.0 / (double)samplesPerPixel;
+	r *= scale;
+	g *= scale;
+	b *= scale;
+
+	// Output the translated [0,255] value of each colour component.
+	pixelColour.r = (int)(256 * clamp(r, 0.0, 0.999));
+	pixelColour.g = (int)(256 * clamp(g, 0.0, 0.999));
+	pixelColour.b = (int)(256 * clamp(b, 0.0, 0.999));
+
+	m_ImageData.emplace_back(pixelColour);
+}
+
+void Renderer::WriteOutput(int32_t imageWidth, int32_t imageHeight) const {
 
 	std::ofstream outputFile;
 	outputFile.open("output.ppm");
@@ -22,9 +43,9 @@ void Renderer::Render(int32_t imageWidth, int32_t imageHeight, std::vector<glm::
 
 		for (int32_t x = 0; x < imageWidth; x++) {
 
-			outputFile << imageData[(imageHeight - y - 1) * imageWidth + x].r
-				<< ' ' << imageData[(imageHeight - y - 1) * imageWidth + x].g
-				<< ' ' << imageData[(imageHeight - y - 1) * imageWidth + x].b
+			outputFile << m_ImageData[(imageHeight - y - 1) * imageWidth + x].r
+				<< ' ' << m_ImageData[(imageHeight - y - 1) * imageWidth + x].g
+				<< ' ' << m_ImageData[(imageHeight - y - 1) * imageWidth + x].b
 				<< std::endl;
 		}
 	}

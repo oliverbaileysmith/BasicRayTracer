@@ -6,7 +6,7 @@
 
 #include <cstdlib>
 
-#include "vendor/glm/ext/vector_float3.hpp"
+#include "vendor/glm/ext/vector_double3.hpp"
 #include "vendor/glm/gtx/norm.hpp"
 
 // Usings
@@ -17,43 +17,43 @@ using std::sqrt;
 
 // Constants
 
-const float POSITIVE_INFINITY = std::numeric_limits<float>::infinity();
-const float PI = 3.1415926535897932385f;
+const double POSITIVE_INFINITY = std::numeric_limits<double>::infinity();
+const double PI = 3.1415926535897932385;
 
 // Utility Functions
 
-inline float degreesToRadians(float degrees) {
-    return degrees * PI / 180.0f;
+inline double degreesToRadians(double degrees) {
+    return degrees * PI / 180.0;
 }
 
-inline float randomFloat() {
+inline double randomDouble() {
     // Returns a random real in [0,1).
     return rand() / (RAND_MAX + 1.0);
 }
 
-inline float randomFloat(float min, float max) {
+inline double randomDouble(double min, double max) {
     // Returns a random real in [min,max).
-    return min + (max - min) * randomFloat();
+    return min + (max - min) * randomDouble();
 }
 
-inline glm::vec3 randomVec3() {
-    return glm::vec3(randomFloat(), randomFloat(), randomFloat());
+inline glm::dvec3 randomVec3() {
+    return glm::dvec3(randomDouble(), randomDouble(), randomDouble());
 }
 
-inline glm::vec3 randomVec3(float min, float max) {
-    return glm::vec3(randomFloat(min, max), randomFloat(min, max), randomFloat(min, max));
+inline glm::dvec3 randomVec3(double min, double max) {
+    return glm::dvec3(randomDouble(min, max), randomDouble(min, max), randomDouble(min, max));
 }
 
-inline glm::vec3 randomInUnitSphere() {
+inline glm::dvec3 randomInUnitSphere() {
     while (true) {
-        glm::vec3 p = randomVec3(-1.0f, 1.0f);
+        glm::dvec3 p = randomVec3(-1.0, 1.0);
         if (glm::length2(p) >= 1)
             continue;
         return p;
     }
 }
 
-inline float clamp(float x, float min, float max) {
+inline double clamp(double x, double min, double max) {
     if (x < min)
         return min;
     if (x > max)

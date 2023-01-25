@@ -13,7 +13,7 @@ public:
 	void clear();
 	void add(std::shared_ptr<HittableObject> hittableObject);
 
-	virtual bool Hit(const Ray &ray, float tMin, float tMax, HitRecord &hitRecord) const override;
+	virtual bool Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const override;
 
 private:
 	std::vector<std::shared_ptr<HittableObject>> m_HittableObjects;
