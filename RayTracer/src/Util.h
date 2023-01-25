@@ -74,6 +74,13 @@ inline glm::dvec3 reflect(const glm::dvec3 &incident, const glm::dvec3 &normal) 
     return incident - 2 * glm::dot(incident, normal) * normal;
 }
 
+inline glm::dvec3 refract(const glm::dvec3 &incident, const glm::dvec3 &normal, double refractionRatio) {
+    double cosTheta = std::fmin(glm::dot(-incident, normal), 1.0);
+    glm::dvec3 rOutPerpendicular = refractionRatio * (incident + cosTheta * normal);
+    glm::dvec3 rOutParallel = -std::sqrt(std::fabs(1.0 - glm::length2(rOutPerpendicular))) * normal;
+    return rOutPerpendicular + rOutParallel;
+}
+
 inline double clamp(double x, double min, double max) {
     if (x < min)
         return min;

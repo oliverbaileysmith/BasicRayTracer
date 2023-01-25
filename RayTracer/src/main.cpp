@@ -48,9 +48,9 @@ void main() {
 	HittableObjectList scene;
 
 	std::shared_ptr<Material> materialGround = std::make_shared<Lambertian>(glm::dvec3(0.8, 0.8, 0.0));
-	std::shared_ptr<Material> materialSphere1 = std::make_shared<Lambertian>(glm::dvec3(0.7, 0.3, 0.3));
-	std::shared_ptr<Material> materialSphere2 = std::make_shared<Metal>(glm::dvec3(0.8, 0.8, 0.8), 0.3);
-	std::shared_ptr<Material> materialSphere3 = std::make_shared<Metal>(glm::dvec3(0.8, 0.6, 0.2), 1.0);
+	std::shared_ptr<Material> materialSphere1 = std::make_shared<Lambertian>(glm::dvec3(0.1, 0.2, 0.5));
+	std::shared_ptr<Material> materialSphere2 = std::make_shared<Dielectric>(1.5);
+	std::shared_ptr<Material> materialSphere3 = std::make_shared<Metal>(glm::dvec3(0.8, 0.6, 0.2), 0.0);
 
 	scene.add(std::make_shared<Sphere>(glm::vec3( 0.0, -100.5, -1.0), 100.0, materialGround));
 	scene.add(std::make_shared<Sphere>(glm::vec3( 0.0,    0.0, -1.0),   0.5, materialSphere1));

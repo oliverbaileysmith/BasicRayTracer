@@ -31,3 +31,13 @@ private:
 	glm::dvec3 m_Albedo;
 	double m_Fuzz;
 };
+
+class Dielectric : public Material {
+public:
+	Dielectric(double refractiveIndex);
+
+	virtual bool Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const override;
+
+private:
+	double m_RefractiveIndex;
+};

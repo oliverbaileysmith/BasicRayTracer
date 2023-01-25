@@ -24,3 +24,25 @@ bool Metal::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dve
 	attenuation = m_Albedo;
 	return (glm::dot(rayScattered.GetDirection(), hitRecord.m_Normal) > 0.0);
 }
+
+Dielectric::Dielectric(double refractiveIndex) : m_RefractiveIndex(refractiveIndex) {}
+
+bool Dielectric::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const {
+	attenuation = glm::dvec3(1.0, 1.0, 1.0);
+	double refractionRatio = hitRecord.m_FrontFace ? (1.0 / m_RefractiveIndex) : m_RefractiveIndex;
+
+	glm::dvec3 unitDirection = glm::normalize(rayIncident.GetDirection());
+	double cosTheta = std::fmin(glm::dot(-unitDirection, hitRecord.m_Normal), 1.0);
+	double sinTheta = std::sqrt(1.0 - cosTheta * cosTheta);
+
+	bool cannotRefract = refractionRatio * sinTheta > 1.0;
+	glm::dvec3 direction;
+
+	if (cannotRefract)
+		direction = reflect(unitDirection, hitRecord.m_Normal);
+	else
+		direction = refract(unitDirection, hitRecord.m_Normal, refractionRatio);
+
+	rayScattered = Ray(hitRecord.m_HitPoint, direction);
+	return true;
+}
