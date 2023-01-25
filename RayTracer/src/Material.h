@@ -40,4 +40,6 @@ public:
 
 private:
 	double m_RefractiveIndex;
+
+	static double Reflectance(double cosine, double refractionRatio);
 };

@@ -38,11 +38,18 @@ bool Dielectric::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm
 	bool cannotRefract = refractionRatio * sinTheta > 1.0;
 	glm::dvec3 direction;
 
-	if (cannotRefract)
+	if (cannotRefract || Reflectance(cosTheta, refractionRatio) > randomDouble())
 		direction = reflect(unitDirection, hitRecord.m_Normal);
 	else
 		direction = refract(unitDirection, hitRecord.m_Normal, refractionRatio);
 
 	rayScattered = Ray(hitRecord.m_HitPoint, direction);
 	return true;
+}
+
+double Dielectric::Reflectance(double cosine, double refractionRatio) {
+	//Schlick's Approximation
+	double r0 = (1.0 - refractionRatio) / (1.0 + refractionRatio);
+	r0 *= r0;
+	return r0 + (1 - r0) * std::pow((1 - cosine), 5);
 }

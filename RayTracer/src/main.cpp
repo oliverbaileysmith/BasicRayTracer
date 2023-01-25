@@ -55,6 +55,7 @@ void main() {
 	scene.add(std::make_shared<Sphere>(glm::vec3( 0.0, -100.5, -1.0), 100.0, materialGround));
 	scene.add(std::make_shared<Sphere>(glm::vec3( 0.0,    0.0, -1.0),   0.5, materialSphere1));
 	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),   0.5, materialSphere2));
+	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),  -0.4, materialSphere2));
 	scene.add(std::make_shared<Sphere>(glm::vec3( 1.0,    0.0, -1.0),   0.5, materialSphere3));
 
 	// Camera
