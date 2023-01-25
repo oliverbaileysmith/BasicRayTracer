@@ -4,8 +4,8 @@
 
 #include "vendor/glm/gtx/norm.hpp"
 
-Sphere::Sphere(glm::dvec3 center, double radius)
-	: m_Center(center), m_Radius(radius)
+Sphere::Sphere(glm::dvec3 center, double radius, std::shared_ptr<Material> material)
+	: m_Center(center), m_Radius(radius), m_Material(material)
 {}
 
 bool Sphere::Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const {
@@ -31,6 +31,7 @@ bool Sphere::Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord)
     hitRecord.m_HitPoint = ray.GetPositionAtDistance(hitRecord.m_T);
     glm::dvec3 outwardNormal = (hitRecord.m_HitPoint - m_Center) / m_Radius;
     hitRecord.m_SetFaceNormal(ray, outwardNormal);
+    hitRecord.m_MaterialPtr = m_Material;
 
     return true;
 

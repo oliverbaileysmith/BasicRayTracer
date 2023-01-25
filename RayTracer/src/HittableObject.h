@@ -4,9 +4,12 @@
 
 #include "vendor/glm/gtx/norm.hpp"
 
+class Material;
+
 struct HitRecord {
 	glm::dvec3 m_HitPoint;
 	glm::dvec3 m_Normal;
+	std::shared_ptr<Material> m_MaterialPtr;
 	double m_T;
 	bool m_FrontFace;
 

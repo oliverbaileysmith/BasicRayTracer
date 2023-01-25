@@ -65,6 +65,11 @@ inline glm::dvec3 randomInHemisphere(const glm::dvec3 &normal) {
         return -inUnitSphere;
 }
 
+inline bool nearZero(glm::dvec3 dvec3) {
+    const double s = 1e-8;
+    return (std::fabs(dvec3.x) < s) && (std::fabs(dvec3.y) < s) && (std::fabs(dvec3.z) < s);
+}
+
 inline double clamp(double x, double min, double max) {
     if (x < min)
         return min;
