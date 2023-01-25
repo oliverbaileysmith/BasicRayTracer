@@ -16,11 +16,11 @@ void Renderer::RenderPixel(glm::dvec3 pixelColour, int32_t samplesPerPixel){
 	double g = pixelColour.g;
 	double b = pixelColour.b;
 
-	// Divide the colour by the number of samples.
+	// Divide the colour by the number of samples. Correct for gamma = 2.0 (sqrt).
 	double scale = 1.0 / (double)samplesPerPixel;
-	r *= scale;
-	g *= scale;
-	b *= scale;
+	r = std::sqrt(scale * r);
+	g = std::sqrt(scale * g);
+	b = std::sqrt(scale * b);
 
 	// Output the translated [0,255] value of each colour component.
 	pixelColour.r = (int)(256 * clamp(r, 0.0, 0.999));

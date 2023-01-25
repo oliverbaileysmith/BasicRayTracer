@@ -17,7 +17,7 @@ glm::dvec3 rayColour(const Ray &ray, const HittableObject &scene, uint32_t maxRa
 	if (maxRayBounces <= 0)
 		return glm::dvec3(0.0, 0.0, 0.0);
 
-	if (scene.Hit(ray, 0.0, POSITIVE_INFINITY, hitRecord)) {
+	if (scene.Hit(ray, 0.001, POSITIVE_INFINITY, hitRecord)) {
 		glm::dvec3 diffuseTarget = hitRecord.m_HitPoint + hitRecord.m_Normal + randomInUnitSphere();
 		return 0.5 * rayColour(Ray(hitRecord.m_HitPoint, diffuseTarget - hitRecord.m_HitPoint), scene, maxRayBounces - 1);
 	}
