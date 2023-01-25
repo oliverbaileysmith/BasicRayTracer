@@ -4,6 +4,7 @@
 
 class Ray {
 public:
+	Ray();
 	Ray(const glm::dvec3 &origin, const glm::dvec3 &direction);
 	~Ray();
 

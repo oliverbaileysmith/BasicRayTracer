@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "Ray.h"
 
 #include "vendor/glm/gtx/norm.hpp"

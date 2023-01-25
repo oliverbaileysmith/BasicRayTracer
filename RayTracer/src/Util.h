@@ -70,6 +70,10 @@ inline bool nearZero(glm::dvec3 dvec3) {
     return (std::fabs(dvec3.x) < s) && (std::fabs(dvec3.y) < s) && (std::fabs(dvec3.z) < s);
 }
 
+inline glm::dvec3 reflect(const glm::dvec3 &incident, const glm::dvec3 &normal) {
+    return incident - 2 * glm::dot(incident, normal) * normal;
+}
+
 inline double clamp(double x, double min, double max) {
     if (x < min)
         return min;

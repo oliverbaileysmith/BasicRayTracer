@@ -1,5 +1,7 @@
 #include "Ray.h"
 
+Ray::Ray() {}
+
 Ray::Ray(const glm::dvec3 &origin, const glm::dvec3 &direction)
 	: m_Origin(origin), m_Direction(direction)
 {

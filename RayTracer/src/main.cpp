@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "Util.h"
 #include "Renderer.h"
@@ -6,6 +7,7 @@
 #include "HittableObjectList.h"
 #include "Sphere.h"
 #include "Camera.h"
+#include "Material.h"
 
 #include "vendor/glm/ext/vector_double3.hpp"
 #include "vendor/glm/gtx/vector_angle.hpp"
@@ -18,8 +20,11 @@ glm::dvec3 rayColour(const Ray &ray, const HittableObject &scene, uint32_t maxRa
 		return glm::dvec3(0.0, 0.0, 0.0);
 
 	if (scene.Hit(ray, 0.001, POSITIVE_INFINITY, hitRecord)) {
-		glm::dvec3 diffuseTarget = hitRecord.m_HitPoint + hitRecord.m_Normal + randomInUnitSphere();
-		return 0.5 * rayColour(Ray(hitRecord.m_HitPoint, diffuseTarget - hitRecord.m_HitPoint), scene, maxRayBounces - 1);
+		Ray scattered;
+		glm::dvec3 attenuation;
+		if (hitRecord.m_MaterialPtr->Scatter(ray, hitRecord, attenuation, scattered))
+			return attenuation * rayColour(scattered, scene, maxRayBounces - 1);
+		return glm::dvec3(0.0, 0.0, 0.0);
 	}
 
 	glm::dvec3 unitDirection = glm::normalize(ray.GetDirection());
@@ -41,8 +46,16 @@ void main() {
 	// Scene
 
 	HittableObjectList scene;
-	scene.add(std::make_shared<Sphere>(glm::vec3(0.0, 0.0, -1.0), 0.5));
-	scene.add(std::make_shared<Sphere>(glm::vec3(0.0, -100.5, -1.0), 100.0));
+
+	std::shared_ptr<Material> materialGround = std::make_shared<Lambertian>(glm::dvec3(0.8, 0.8, 0.0));
+	std::shared_ptr<Material> materialSphere1 = std::make_shared<Lambertian>(glm::dvec3(0.7, 0.3, 0.3));
+	std::shared_ptr<Material> materialSphere2 = std::make_shared<Metal>(glm::dvec3(0.8, 0.8, 0.8), 0.3);
+	std::shared_ptr<Material> materialSphere3 = std::make_shared<Metal>(glm::dvec3(0.8, 0.6, 0.2), 1.0);
+
+	scene.add(std::make_shared<Sphere>(glm::vec3( 0.0, -100.5, -1.0), 100.0, materialGround));
+	scene.add(std::make_shared<Sphere>(glm::vec3( 0.0,    0.0, -1.0),   0.5, materialSphere1));
+	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),   0.5, materialSphere2));
+	scene.add(std::make_shared<Sphere>(glm::vec3( 1.0,    0.0, -1.0),   0.5, materialSphere3));
 
 	// Camera
 
