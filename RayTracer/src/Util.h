@@ -53,6 +53,18 @@ inline glm::dvec3 randomInUnitSphere() {
     }
 }
 
+inline glm::dvec3 randomUnitVector() {
+    return glm::normalize(randomInUnitSphere());
+}
+
+inline glm::dvec3 randomInHemisphere(const glm::dvec3 &normal) {
+    glm::dvec3 inUnitSphere = randomInUnitSphere();
+    if (glm::dot(inUnitSphere, normal) > 0.0)
+        return inUnitSphere;
+    else
+        return -inUnitSphere;
+}
+
 inline double clamp(double x, double min, double max) {
     if (x < min)
         return min;

@@ -48,8 +48,6 @@ void main() {
 
 	Camera camera;
 
-	// Create image data
-
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 
 	for (int32_t y = IMAGE_HEIGHT - 1; y >= 0; y--) {
