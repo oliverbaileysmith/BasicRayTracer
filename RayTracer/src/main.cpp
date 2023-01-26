@@ -45,6 +45,8 @@ void main() {
 
 	// Scene
 
+	double R = std::cos(PI / 4);
+
 	HittableObjectList scene;
 
 	std::shared_ptr<Material> materialGround = std::make_shared<Lambertian>(glm::dvec3(0.8, 0.8, 0.0));
@@ -60,7 +62,7 @@ void main() {
 
 	// Camera
 
-	Camera camera;
+	Camera camera(glm::dvec3(-2.0, 2.0, 1.0), glm::dvec3(0.0, 0.0, -1.0), glm::dvec3(0.0, 1.0, 0.0), 70.0, IMAGE_ASPECT_RATIO);
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 

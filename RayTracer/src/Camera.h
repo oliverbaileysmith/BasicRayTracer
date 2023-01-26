@@ -5,7 +5,7 @@
 
 class Camera {
 public:
-	Camera();
+	Camera(glm::dvec3 position, glm::dvec3 lookAt, glm::dvec3 up, double verticalFOV, double aspectRatio);
 	~Camera();
 
 	Ray getRay(double pixelX, double pixelY) const;
