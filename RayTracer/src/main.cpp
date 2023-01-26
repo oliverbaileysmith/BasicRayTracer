@@ -38,7 +38,7 @@ void main() {
 	// Image details
 
 	const double IMAGE_ASPECT_RATIO = 16.0 / 9.0;
-	const int32_t IMAGE_WIDTH = 400;
+	const int32_t IMAGE_WIDTH = 1920;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
 	const int32_t SAMPLES_PER_PIXEL = 100;
 	const int32_t MAX_RAY_BOUNCES = 50;
@@ -62,7 +62,13 @@ void main() {
 
 	// Camera
 
-	Camera camera(glm::dvec3(-2.0, 2.0, 1.0), glm::dvec3(0.0, 0.0, -1.0), glm::dvec3(0.0, 1.0, 0.0), 70.0, IMAGE_ASPECT_RATIO);
+	glm::dvec3 cameraPosition(-2.5, 2.0, 1.0);
+	glm::dvec3 lookAt(0.0, 0.0, -1.0);
+	glm::dvec3 up(0.0, 1.0, 0.0);
+	double focusDistance = glm::length(cameraPosition - lookAt);
+	double aperture = 0.1;
+
+	Camera camera(cameraPosition, lookAt, up, 60.0, IMAGE_ASPECT_RATIO, aperture, focusDistance);
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 

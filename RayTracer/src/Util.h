@@ -65,6 +65,14 @@ inline glm::dvec3 randomInHemisphere(const glm::dvec3 &normal) {
         return -inUnitSphere;
 }
 
+inline glm::dvec3 randomInUnitDisk() {
+    while (true) {
+        glm::dvec3 p = glm::dvec3(randomDouble(-1.0, 1.0), randomDouble(-1.0, 1.0), 0);
+        if (glm::length2(p) >= 1) continue;
+        return p;
+    }
+}
+
 inline bool nearZero(glm::dvec3 dvec3) {
     const double s = 1e-8;
     return (std::fabs(dvec3.x) < s) && (std::fabs(dvec3.y) < s) && (std::fabs(dvec3.z) < s);
