@@ -8,6 +8,7 @@
 #include "Sphere.h"
 #include "Camera.h"
 #include "Material.h"
+#include "MovingSphere.h"
 
 #include "vendor/glm/ext/vector_double3.hpp"
 #include "vendor/glm/gtx/vector_angle.hpp"
@@ -38,10 +39,10 @@ void main() {
 	// Image details
 
 	const double IMAGE_ASPECT_RATIO = 16.0 / 9.0;
-	const int32_t IMAGE_WIDTH = 1920;
+	const int32_t IMAGE_WIDTH = 400;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
-	const int32_t SAMPLES_PER_PIXEL = 100;
-	const int32_t MAX_RAY_BOUNCES = 50;
+	const int32_t SAMPLES_PER_PIXEL = 50;
+	const int32_t MAX_RAY_BOUNCES = 25;
 
 	// Scene
 
@@ -59,6 +60,7 @@ void main() {
 	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),   0.5, materialSphere2));
 	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),  -0.4, materialSphere2));
 	scene.add(std::make_shared<Sphere>(glm::vec3( 1.0,    0.0, -1.0),   0.5, materialSphere3));
+	scene.add(std::make_shared<MovingSphere>(glm::vec3(0.0, 1.0, -1.0), glm::vec3(0.0, 1.25, -1.0), 0.0, 1.0, 0.3, materialSphere1));
 
 	// Camera
 
@@ -68,7 +70,7 @@ void main() {
 	double focusDistance = glm::length(cameraPosition - lookAt);
 	double aperture = 0.1;
 
-	Camera camera(cameraPosition, lookAt, up, 60.0, IMAGE_ASPECT_RATIO, aperture, focusDistance);
+	Camera camera(cameraPosition, lookAt, up, 60.0, IMAGE_ASPECT_RATIO, aperture, focusDistance, 0.0, 1.0);
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 

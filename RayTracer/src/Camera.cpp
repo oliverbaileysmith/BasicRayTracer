@@ -2,7 +2,7 @@
 
 #include "vendor/glm/gtx/norm.hpp"
 
-Camera::Camera(glm::dvec3 position, glm::dvec3 lookAt, glm::dvec3 up, double verticalFOV, double aspectRatio, double aperture, double focusDistance) {
+Camera::Camera(glm::dvec3 position, glm::dvec3 lookAt, glm::dvec3 up, double verticalFOV, double aspectRatio, double aperture, double focusDistance, double time0, double time1) {
 
 	double theta = degreesToRadians(verticalFOV);
 	double h = std::tan(theta / 2);
@@ -19,6 +19,8 @@ Camera::Camera(glm::dvec3 position, glm::dvec3 lookAt, glm::dvec3 up, double ver
 	m_ViewportLowerLeftCorner = m_Origin - m_ViewportHorizontal / 2.0 - m_ViewportVertical / 2.0 - focusDistance * m_W;
 
 	m_LensRadius = aperture / 2.0;
+	m_Time0 = time0;
+	m_Time1 = time1;
 }
 
 Camera::~Camera() {}
@@ -29,6 +31,7 @@ Ray Camera::getRay(double pixelX, double pixelY) const {
 
 	return Ray(
 		m_Origin + offset,
-		m_ViewportLowerLeftCorner + pixelX * m_ViewportHorizontal + pixelY * m_ViewportVertical - m_Origin - offset
+		m_ViewportLowerLeftCorner + pixelX * m_ViewportHorizontal + pixelY * m_ViewportVertical - m_Origin - offset,
+		randomDouble(m_Time0, m_Time1)
 	);
 }

@@ -2,8 +2,8 @@
 
 Ray::Ray() {}
 
-Ray::Ray(const glm::dvec3 &origin, const glm::dvec3 &direction)
-	: m_Origin(origin), m_Direction(direction)
+Ray::Ray(const glm::dvec3 &origin, const glm::dvec3 &direction, double time)
+	: m_Origin(origin), m_Direction(direction), m_Time(time)
 {
 
 }
@@ -16,6 +16,10 @@ glm::dvec3 Ray::GetOrigin() const {
 
 glm::dvec3 Ray::GetDirection() const {
 	return m_Direction;
+}
+
+double Ray::GetTime() const {
+	return m_Time;
 }
 
 glm::dvec3 Ray::GetPositionAtDistance(double t) const {

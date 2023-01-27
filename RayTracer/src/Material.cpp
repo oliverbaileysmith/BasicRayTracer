@@ -11,7 +11,7 @@ bool Lambertian::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm
 	if (nearZero(scatterDirection))
 		scatterDirection = hitRecord.m_Normal;
 
-	rayScattered = Ray(hitRecord.m_HitPoint, scatterDirection);
+	rayScattered = Ray(hitRecord.m_HitPoint, scatterDirection, rayIncident.GetTime());
 	attenuation = m_Albedo;
 	return true;
 }
@@ -20,7 +20,7 @@ Metal::Metal(const glm::dvec3 &albedo, double fuzzFactor) : m_Albedo(albedo), m_
 
 bool Metal::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const {
 	glm::dvec3 reflected = reflect(glm::normalize(rayIncident.GetDirection()), hitRecord.m_Normal);
-	rayScattered = Ray(hitRecord.m_HitPoint, reflected + m_Fuzz * randomInUnitSphere());
+	rayScattered = Ray(hitRecord.m_HitPoint, reflected + m_Fuzz * randomInUnitSphere(), rayIncident.GetTime());
 	attenuation = m_Albedo;
 	return (glm::dot(rayScattered.GetDirection(), hitRecord.m_Normal) > 0.0);
 }
@@ -43,7 +43,7 @@ bool Dielectric::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm
 	else
 		direction = refract(unitDirection, hitRecord.m_Normal, refractionRatio);
 
-	rayScattered = Ray(hitRecord.m_HitPoint, direction);
+	rayScattered = Ray(hitRecord.m_HitPoint, direction, rayIncident.GetTime());
 	return true;
 }
 

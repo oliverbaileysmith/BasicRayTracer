@@ -131,6 +131,7 @@
     <ClCompile Include="src\HittableObjectList.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\Material.cpp" />
+    <ClCompile Include="src\MovingSphere.cpp" />
     <ClCompile Include="src\Ray.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
@@ -143,6 +144,7 @@
     <ClInclude Include="src\HittableObject.h" />
     <ClInclude Include="src\HittableObjectList.h" />
     <ClInclude Include="src\Material.h" />
+    <ClInclude Include="src\MovingSphere.h" />
     <ClInclude Include="src\Ray.h" />
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Sphere.h" />
