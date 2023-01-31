@@ -31,3 +31,20 @@ bool HittableObjectList::Hit(const Ray &ray, double tMin, double tMax, HitRecord
 
 	return hitAnything;
 }
+
+bool HittableObjectList::buildAABB(double time0, double time1, AABB &outputAABB) const {
+
+	if (m_HittableObjects.empty())
+		return false;
+
+	AABB tempBox;
+	bool firstBox = true;
+
+	for (const auto &object : m_HittableObjects) {
+		if (!object->buildAABB(time0, time1, tempBox)) return false;
+		outputAABB = firstBox ? tempBox : buildSurroundingAABB(outputAABB, tempBox);
+		firstBox = false;
+	}
+
+	return true;
+}

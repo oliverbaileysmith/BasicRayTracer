@@ -36,6 +36,11 @@ inline double randomDouble(double min, double max) {
     return min + (max - min) * randomDouble();
 }
 
+inline int randomInt(int min, int max) {
+    // Returns a random integer in [min,max].
+    return static_cast<int>(randomDouble(min, max + 1));
+}
+
 inline glm::dvec3 randomVec3() {
     return glm::dvec3(randomDouble(), randomDouble(), randomDouble());
 }
