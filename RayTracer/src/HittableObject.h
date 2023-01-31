@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "Ray.h"
+#include "AABB.h"
 
 #include "vendor/glm/gtx/norm.hpp"
 
@@ -24,4 +25,5 @@ struct HitRecord {
 class HittableObject {
 public:
 	virtual bool Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const = 0;
+	virtual bool buildAABB(double time0, double time1, AABB &outputAABB) const = 0;
 };

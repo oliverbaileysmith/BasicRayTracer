@@ -36,3 +36,12 @@ bool Sphere::Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord)
     return true;
 
 }
+
+bool Sphere::buildAABB(double time0, double time1, AABB &outputAABB) const {
+    outputAABB = AABB(
+        m_Center - glm::dvec3(m_Radius),
+        m_Center + glm::dvec3(m_Radius)
+    );
+
+    return true;
+}

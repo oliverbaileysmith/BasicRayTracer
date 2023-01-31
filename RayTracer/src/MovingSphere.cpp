@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MovingSphere.h"
+#include "AABB.h"
 
 MovingSphere::MovingSphere() {}
 
@@ -39,6 +40,21 @@ bool MovingSphere::Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitR
     hitRecord.m_SetFaceNormal(ray, outwardNormal);
     hitRecord.m_MaterialPtr = m_Material;
 
+    return true;
+}
+
+bool MovingSphere::buildAABB(double time0, double time1, AABB &outputAABB) const {
+    AABB box0(
+        getCenter(time0) - glm::dvec3(m_Radius),
+        getCenter(time0) + glm::dvec3(m_Radius)
+    );
+
+    AABB box1(
+        getCenter(time1) - glm::dvec3(m_Radius),
+        getCenter(time1) + glm::dvec3(m_Radius)
+    );
+
+    outputAABB = buildSurroundingAABB(box0, box1);
     return true;
 }
 
