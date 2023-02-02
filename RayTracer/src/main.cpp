@@ -41,8 +41,8 @@ void main() {
 	const double IMAGE_ASPECT_RATIO = 16.0 / 9.0;
 	const int32_t IMAGE_WIDTH = 400;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
-	const int32_t SAMPLES_PER_PIXEL = 50;
-	const int32_t MAX_RAY_BOUNCES = 25;
+	const int32_t SAMPLES_PER_PIXEL = 100;
+	const int32_t MAX_RAY_BOUNCES = 50;
 
 	// Scene
 
@@ -50,7 +50,7 @@ void main() {
 
 	HittableObjectList scene;
 
-	std::shared_ptr<Material> materialGround = std::make_shared<Lambertian>(glm::dvec3(0.8, 0.8, 0.0));
+	/*std::shared_ptr<Material> materialGround = std::make_shared<Lambertian>(glm::dvec3(0.8, 0.8, 0.0));
 	std::shared_ptr<Material> materialSphere1 = std::make_shared<Lambertian>(glm::dvec3(0.1, 0.2, 0.5));
 	std::shared_ptr<Material> materialSphere2 = std::make_shared<Dielectric>(1.5);
 	std::shared_ptr<Material> materialSphere3 = std::make_shared<Metal>(glm::dvec3(0.8, 0.6, 0.2), 0.0);
@@ -60,15 +60,19 @@ void main() {
 	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),   0.5, materialSphere2));
 	scene.add(std::make_shared<Sphere>(glm::vec3(-1.0,    0.0, -1.0),  -0.4, materialSphere2));
 	scene.add(std::make_shared<Sphere>(glm::vec3( 1.0,    0.0, -1.0),   0.5, materialSphere3));
-	scene.add(std::make_shared<MovingSphere>(glm::vec3(0.0, 1.0, -1.0), glm::vec3(0.0, 1.25, -1.0), 0.0, 1.0, 0.3, materialSphere1));
+	scene.add(std::make_shared<MovingSphere>(glm::vec3(0.0, 1.0, -1.0), glm::vec3(0.0, 1.25, -1.0), 0.0, 1.0, 0.3, materialSphere1));*/
+
+	std::shared_ptr<Texture> checker = std::make_shared<CheckerTexture>(glm::dvec3(0.2, 0.3, 0.1), glm::dvec3(0.9, 0.9, 0.9));
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, -10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0,  10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));
 
 	// Camera
 
-	glm::dvec3 cameraPosition(-2.5, 2.0, 1.0);
-	glm::dvec3 lookAt(0.0, 0.0, -1.0);
+	glm::dvec3 cameraPosition(13.0, 2.0, 3.0);
+	glm::dvec3 lookAt(0.0, 0.0, 0.0);
 	glm::dvec3 up(0.0, 1.0, 0.0);
 	double focusDistance = glm::length(cameraPosition - lookAt);
-	double aperture = 0.1;
+	double aperture = 0.0;
 
 	Camera camera(cameraPosition, lookAt, up, 60.0, IMAGE_ASPECT_RATIO, aperture, focusDistance, 0.0, 1.0);
 
