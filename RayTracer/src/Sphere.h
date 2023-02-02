@@ -16,4 +16,6 @@ private:
 	glm::dvec3 m_Center;
 	double m_Radius;
 	std::shared_ptr<Material> m_Material;
+
+	static void getSphereUV(const glm::dvec3 &p, double &u, double &v);
 };

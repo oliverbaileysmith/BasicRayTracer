@@ -2,7 +2,9 @@
 
 #include "Material.h"
 
-Lambertian::Lambertian(const glm::dvec3 &albedo) : m_Albedo(albedo) {}
+Lambertian::Lambertian(const glm::dvec3 &albedo) : m_Albedo(std::make_shared<SolidColour>(albedo)) {}
+
+Lambertian::Lambertian(std::shared_ptr<Texture> albedo) : m_Albedo(albedo) {}
 
 bool Lambertian::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const {
 	glm::dvec3 scatterDirection = hitRecord.m_Normal + randomUnitVector();
@@ -12,7 +14,7 @@ bool Lambertian::Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm
 		scatterDirection = hitRecord.m_Normal;
 
 	rayScattered = Ray(hitRecord.m_HitPoint, scatterDirection, rayIncident.GetTime());
-	attenuation = m_Albedo;
+	attenuation = m_Albedo->value(hitRecord.m_U, hitRecord.m_V, hitRecord.m_HitPoint);
 	return true;
 }
 

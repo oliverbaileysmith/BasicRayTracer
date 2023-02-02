@@ -14,6 +14,8 @@ struct HitRecord {
 	glm::dvec3 m_Normal;
 	std::shared_ptr<Material> m_MaterialPtr;
 	double m_T;
+	double m_U;
+	double m_V;
 	bool m_FrontFace;
 
 	inline void m_SetFaceNormal(const Ray &ray, const glm::dvec3 &outwardNormal) {
