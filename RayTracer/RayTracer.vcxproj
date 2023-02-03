@@ -152,6 +152,7 @@
     <ClInclude Include="src\MovingSphere.h" />
     <ClInclude Include="src\Ray.h" />
     <ClInclude Include="src\Renderer.h" />
+    <ClInclude Include="src\RT_STB_Image.h" />
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Util.h" />
