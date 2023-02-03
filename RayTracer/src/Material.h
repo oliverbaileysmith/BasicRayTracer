@@ -1,5 +1,3 @@
-#pragma once
-
 #include "Util.h"
 #include "Ray.h"
 #include "HittableObject.h"

@@ -1,3 +1,6 @@
+#ifndef RT_STB_IMAGE_H
+#define RT_STB_IMAGE_H
+
 // Disable pedantic warnings for this external library.
 #ifdef _MSC_VER
     // Microsoft Visual C++ Compiler
@@ -11,4 +14,6 @@
 #ifdef _MSC_VER
     // Microsoft Visual C++ Compiler
 #pragma warning (pop)
+#endif
+
 #endif

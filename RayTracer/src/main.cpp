@@ -62,9 +62,13 @@ void main() {
 	scene.add(std::make_shared<Sphere>(glm::vec3( 1.0,    0.0, -1.0),   0.5, materialSphere3));
 	scene.add(std::make_shared<MovingSphere>(glm::vec3(0.0, 1.0, -1.0), glm::vec3(0.0, 1.25, -1.0), 0.0, 1.0, 0.3, materialSphere1));*/
 
-	std::shared_ptr<Texture> checker = std::make_shared<CheckerTexture>(glm::dvec3(0.2, 0.3, 0.1), glm::dvec3(0.9, 0.9, 0.9));
+	/*std::shared_ptr<Texture> checker = std::make_shared<CheckerTexture>(glm::dvec3(0.2, 0.3, 0.1), glm::dvec3(0.9, 0.9, 0.9));
 	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, -10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));
-	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0,  10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0,  10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));*/
+
+	std::shared_ptr<Texture> earthTexture = std::make_shared<ImageTexture>("res/textures/earthmap.jpg");
+	std::shared_ptr<Material> earthSurface = std::make_shared<Lambertian>(earthTexture);
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, 0.0, 0.0), 2.0, earthSurface));
 
 	// Camera
 
@@ -74,7 +78,7 @@ void main() {
 	double focusDistance = glm::length(cameraPosition - lookAt);
 	double aperture = 0.0;
 
-	Camera camera(cameraPosition, lookAt, up, 60.0, IMAGE_ASPECT_RATIO, aperture, focusDistance, 0.0, 1.0);
+	Camera camera(cameraPosition, lookAt, up, 20.0, IMAGE_ASPECT_RATIO, aperture, focusDistance, 0.0, 1.0);
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 
