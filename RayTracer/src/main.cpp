@@ -13,24 +13,24 @@
 #include "vendor/glm/ext/vector_double3.hpp"
 #include "vendor/glm/gtx/vector_angle.hpp"
 
-glm::dvec3 rayColour(const Ray &ray, const HittableObject &scene, uint32_t maxRayBounces) {
+glm::dvec3 rayColour(const Ray &ray, const glm::dvec3 &BGColour, const HittableObject &scene, uint32_t maxRayBounces) {
 
 	HitRecord hitRecord;
 
 	if (maxRayBounces <= 0)
 		return glm::dvec3(0.0, 0.0, 0.0);
 
-	if (scene.Hit(ray, 0.001, POSITIVE_INFINITY, hitRecord)) {
-		Ray scattered;
-		glm::dvec3 attenuation;
-		if (hitRecord.m_MaterialPtr->Scatter(ray, hitRecord, attenuation, scattered))
-			return attenuation * rayColour(scattered, scene, maxRayBounces - 1);
-		return glm::dvec3(0.0, 0.0, 0.0);
-	}
+	if (!scene.Hit(ray, 0.001, POSITIVE_INFINITY, hitRecord))
+		return BGColour;
+	
+	Ray scattered;
+	glm::dvec3 attenuation;
+	glm::dvec3 emitted = hitRecord.m_MaterialPtr->emitted(hitRecord.m_U, hitRecord.m_V, hitRecord.m_HitPoint);
 
-	glm::dvec3 unitDirection = glm::normalize(ray.GetDirection());
-	double t = 0.5 * (unitDirection.y + 1.0);
-	return (1.0 - t) * glm::dvec3(1.0, 1.0, 1.0) + t * glm::dvec3(0.5, 0.7, 1.0);
+	if (!hitRecord.m_MaterialPtr->Scatter(ray, hitRecord, attenuation, scattered))
+		return emitted;
+
+	return emitted + attenuation * rayColour(scattered, BGColour, scene, maxRayBounces - 1);
 }
 
 
@@ -43,6 +43,8 @@ void main() {
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
 	const int32_t SAMPLES_PER_PIXEL = 100;
 	const int32_t MAX_RAY_BOUNCES = 50;
+	const double VERTICAL_FOV = 40.0;
+	const glm::dvec3 BACKGROUND_COLOUR(0.0, 0.0, 0.0);
 
 	// Scene
 
@@ -78,7 +80,7 @@ void main() {
 	double focusDistance = glm::length(cameraPosition - lookAt);
 	double aperture = 0.0;
 
-	Camera camera(cameraPosition, lookAt, up, 20.0, IMAGE_ASPECT_RATIO, aperture, focusDistance, 0.0, 1.0);
+	Camera camera(cameraPosition, lookAt, up, VERTICAL_FOV, IMAGE_ASPECT_RATIO, aperture, focusDistance, 0.0, 1.0);
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 
@@ -96,7 +98,7 @@ void main() {
 				double v = ((double)y + randomDouble()) / (double)(IMAGE_HEIGHT - 1);
 
 				Ray ray = camera.getRay(u, v);
-				pixelColour += rayColour(ray, scene, MAX_RAY_BOUNCES);
+				pixelColour += rayColour(ray, BACKGROUND_COLOUR, scene, MAX_RAY_BOUNCES);
 
 			}
 			renderer.RenderPixel(pixelColour, SAMPLES_PER_PIXEL);

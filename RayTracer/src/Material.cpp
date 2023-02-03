@@ -2,6 +2,10 @@
 
 #include "Material.h"
 
+glm::dvec3 Material::emitted(double u, double v, const glm::dvec3 &p) const {
+	return glm::dvec3(0.0, 0.0, 0.0);
+}
+
 Lambertian::Lambertian(const glm::dvec3 &albedo) : m_Albedo(std::make_shared<SolidColour>(albedo)) {}
 
 Lambertian::Lambertian(std::shared_ptr<Texture> albedo) : m_Albedo(albedo) {}
@@ -55,3 +59,20 @@ double Dielectric::Reflectance(double cosine, double refractionRatio) {
 	r0 *= r0;
 	return r0 + (1 - r0) * std::pow((1 - cosine), 5);
 }
+
+DiffuseLight::DiffuseLight(std::shared_ptr<Texture> texture)
+	: m_Emit(texture)
+{}
+
+DiffuseLight::DiffuseLight(glm::dvec3 colour)
+	:m_Emit(std::make_shared<SolidColour>(colour))
+{}
+
+bool DiffuseLight::Scatter(const Ray & rayIncident, const HitRecord & hitRecord, glm::dvec3 & attenuation, Ray & rayScattered) const {
+	return false;
+}
+
+glm::dvec3 DiffuseLight::emitted(double u, double v, const glm::dvec3 &p) const {
+	return m_Emit->value(u, v, p);
+}
+

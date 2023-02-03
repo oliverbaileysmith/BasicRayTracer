@@ -8,6 +8,7 @@ struct HitRecord;
 class Material {
 public:
 	virtual bool Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const = 0;
+	virtual glm::dvec3 emitted(double u, double v, const glm::dvec3 &p) const;
 };
 
 class Lambertian : public Material {
@@ -42,4 +43,15 @@ private:
 	double m_RefractiveIndex;
 
 	static double Reflectance(double cosine, double refractionRatio);
+};
+
+class DiffuseLight : public Material {
+public:
+	DiffuseLight(std::shared_ptr<Texture> texture);
+	DiffuseLight(glm::dvec3 colour);
+
+	virtual bool Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const override;
+	virtual glm::dvec3 emitted(double u, double v, const glm::dvec3 &p) const override;
+
+	std::shared_ptr<Texture> m_Emit;
 };
