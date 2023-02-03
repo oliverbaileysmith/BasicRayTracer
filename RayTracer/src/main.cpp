@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Material.h"
 #include "MovingSphere.h"
+#include "AARect.h"
 
 #include "vendor/glm/ext/vector_double3.hpp"
 #include "vendor/glm/gtx/vector_angle.hpp"
@@ -38,10 +39,10 @@ void main() {
 
 	// Image details
 
-	const double IMAGE_ASPECT_RATIO = 16.0 / 9.0;
-	const int32_t IMAGE_WIDTH = 400;
+	const double IMAGE_ASPECT_RATIO = 1.0;
+	const int32_t IMAGE_WIDTH = 600;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
-	const int32_t SAMPLES_PER_PIXEL = 100;
+	const int32_t SAMPLES_PER_PIXEL = 200;
 	const int32_t MAX_RAY_BOUNCES = 50;
 	const double VERTICAL_FOV = 40.0;
 	const glm::dvec3 BACKGROUND_COLOUR(0.0, 0.0, 0.0);
@@ -68,14 +69,33 @@ void main() {
 	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, -10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));
 	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0,  10.0, 0.0), 10.0, std::make_shared<Lambertian>(checker)));*/
 
-	std::shared_ptr<Texture> earthTexture = std::make_shared<ImageTexture>("res/textures/earthmap.jpg");
+	/*std::shared_ptr<Texture> earthTexture = std::make_shared<ImageTexture>("res/textures/earthmap.jpg");
 	std::shared_ptr<Material> earthSurface = std::make_shared<Lambertian>(earthTexture);
-	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, 0.0, 0.0), 2.0, earthSurface));
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, 0.0, 0.0), 2.0, earthSurface));*/
+
+	/*std::shared_ptr<Texture> earthTexture = std::make_shared<ImageTexture>("res/textures/earthmap.jpg");
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, -1000.0, 0), 1000.0, std::make_shared<Lambertian>(earthTexture)));
+	scene.add(std::make_shared<Sphere>(glm::dvec3(0.0, 2.0, 0), 2, std::make_shared<Lambertian>(earthTexture)));
+
+	std::shared_ptr<Material> diffLight = std::make_shared<DiffuseLight>(glm::dvec3(4.0, 4.0, 4.0));
+	scene.add(std::make_shared<XYRect>(3.0, 5.0, 1.0, 3.0, -2.0, diffLight));*/
+
+	std::shared_ptr<Material> red = std::make_shared<Lambertian>(glm::dvec3(0.65, 0.05, 0.05));
+	std::shared_ptr<Material> white = std::make_shared<Lambertian>(glm::dvec3(0.73, 0.73, 0.73));
+	std::shared_ptr<Material> green = std::make_shared<Lambertian>(glm::dvec3(0.12, 0.45, 0.15));
+	std::shared_ptr<Material> light = std::make_shared<DiffuseLight>(glm::dvec3(15.0, 15.0, 15.0));
+
+	scene.add(std::make_shared<YZRect>(  0.0, 555.0,   0.0, 555.0, 555.0, green));
+	scene.add(std::make_shared<YZRect>(  0.0, 555.0,   0.0, 555.0,   0.0, red));
+	scene.add(std::make_shared<XZRect>(213.0, 343.0, 227.0, 332.0, 554.0, light));
+	scene.add(std::make_shared<XZRect>(  0.0, 555.0,   0.0, 555.0,   0.0, white));
+	scene.add(std::make_shared<XZRect>(  0.0, 555.0,   0.0, 555.0, 555.0, white));
+	scene.add(std::make_shared<XYRect>(  0.0, 555.0,   0.0, 555.0, 555.0, white));
 
 	// Camera
 
-	glm::dvec3 cameraPosition(13.0, 2.0, 3.0);
-	glm::dvec3 lookAt(0.0, 0.0, 0.0);
+	glm::dvec3 cameraPosition(278.0, 278.0, -800.0);
+	glm::dvec3 lookAt(278.0, 278.0, 0.0);
 	glm::dvec3 up(0.0, 1.0, 0.0);
 	double focusDistance = glm::length(cameraPosition - lookAt);
 	double aperture = 0.0;
