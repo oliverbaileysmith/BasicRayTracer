@@ -10,6 +10,7 @@
 #include "Material.h"
 #include "MovingSphere.h"
 #include "AARect.h"
+#include "Box.h"
 
 #include "vendor/glm/ext/vector_double3.hpp"
 #include "vendor/glm/gtx/vector_angle.hpp"
@@ -40,9 +41,9 @@ void main() {
 	// Image details
 
 	const double IMAGE_ASPECT_RATIO = 1.0;
-	const int32_t IMAGE_WIDTH = 600;
+	const int32_t IMAGE_WIDTH = 400;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
-	const int32_t SAMPLES_PER_PIXEL = 200;
+	const int32_t SAMPLES_PER_PIXEL = 100;
 	const int32_t MAX_RAY_BOUNCES = 50;
 	const double VERTICAL_FOV = 40.0;
 	const glm::dvec3 BACKGROUND_COLOUR(0.0, 0.0, 0.0);
@@ -91,6 +92,9 @@ void main() {
 	scene.add(std::make_shared<XZRect>(  0.0, 555.0,   0.0, 555.0,   0.0, white));
 	scene.add(std::make_shared<XZRect>(  0.0, 555.0,   0.0, 555.0, 555.0, white));
 	scene.add(std::make_shared<XYRect>(  0.0, 555.0,   0.0, 555.0, 555.0, white));
+
+	scene.add(std::make_shared<Box>(glm::dvec3(130.0, 0.0, 65.0), glm::dvec3(295.0, 165.0, 230.0), white));
+	scene.add(std::make_shared<Box>(glm::dvec3(265.0, 0.0, 295.0), glm::dvec3(430.0, 330.0, 460.0), white));
 
 	// Camera
 
