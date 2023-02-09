@@ -41,19 +41,19 @@ glm::dvec3 rayColour(const Ray &ray, const glm::dvec3 &BGColour, const HittableO
 
 void main() {
 
+	// Scene
+
+	Scene scene;
+	scene.Construct1();
+
 	// Image details
 
-	const double IMAGE_ASPECT_RATIO = 1.0;
+	const double IMAGE_ASPECT_RATIO = scene.m_Camera.m_ImageAspectRatio;
 	const int32_t IMAGE_WIDTH = 600;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
 	const int32_t SAMPLES_PER_PIXEL = 200;
 	const int32_t MAX_RAY_BOUNCES = 50;
 	const glm::dvec3 BACKGROUND_COLOUR(0.0, 0.0, 0.0);
-
-	// Scene
-
-	Scene scene;
-	scene.Construct1();
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 

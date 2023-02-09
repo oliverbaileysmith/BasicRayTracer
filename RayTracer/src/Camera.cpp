@@ -4,6 +4,8 @@
 
 Camera::Camera(glm::dvec3 position, glm::dvec3 lookAt, glm::dvec3 up, double verticalFOV, double aspectRatio, double aperture, double focusDistance, double time0, double time1) {
 
+	m_ImageAspectRatio = aspectRatio;
+
 	double theta = degreesToRadians(verticalFOV);
 	double h = std::tan(theta / 2);
 	double viewportHeight = 2.0 * h;

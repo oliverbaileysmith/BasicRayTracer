@@ -11,7 +11,7 @@ public:
 	~Camera();
 
 	Ray getRay(double pixelX, double pixelY) const;
-
+	
 private:
 	glm::dvec3 m_Origin;
 	glm::dvec3 m_ViewportHorizontal;
@@ -21,4 +21,7 @@ private:
 	double m_LensRadius;
 	double m_Time0;
 	double m_Time1;
+
+public:
+	double m_ImageAspectRatio;
 };
