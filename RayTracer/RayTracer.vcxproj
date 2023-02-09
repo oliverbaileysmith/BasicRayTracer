@@ -139,6 +139,7 @@
     <ClCompile Include="src\Ray.cpp" />
     <ClCompile Include="src\Renderer.cpp" />
     <ClCompile Include="src\Rotate.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Sphere.cpp" />
     <ClCompile Include="src\Texture.cpp" />
     <ClCompile Include="src\Translate.cpp" />
@@ -160,6 +161,7 @@
     <ClInclude Include="src\Renderer.h" />
     <ClInclude Include="src\Rotate.h" />
     <ClInclude Include="src\RT_STB_Image.h" />
+    <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Sphere.h" />
     <ClInclude Include="src\Texture.h" />
     <ClInclude Include="src\Translate.h" />
