@@ -54,6 +54,7 @@ void main() {
 	const int32_t SAMPLES_PER_PIXEL = 200;
 	const int32_t MAX_RAY_BOUNCES = 50;
 	const glm::dvec3 BACKGROUND_COLOUR(0.0, 0.0, 0.0);
+	const OutputFormat OUTPUT_FORMAT = OutputFormat::JPEG;
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 
@@ -80,6 +81,7 @@ void main() {
 
 	// Render
 
-	renderer.WriteOutput(IMAGE_WIDTH, IMAGE_HEIGHT);
+	std::cout << std::endl << "Writing output to file.";
+	renderer.WriteOutput(IMAGE_WIDTH, IMAGE_HEIGHT, OUTPUT_FORMAT);
 
 }
