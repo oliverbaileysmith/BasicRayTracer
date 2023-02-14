@@ -2,20 +2,56 @@
 #include "Material.h"
 #include "AARect.h"
 #include "Box.h"
+#include "Sphere.h"
 #include "Rotate.h"
 #include "Translate.h"
 
 Scene::Scene()
-	:	m_Camera(glm::dvec3(0.0,0.0,0.0),
-		glm::dvec3(0.0, 0.0, -1.0),
-		glm::dvec3(0.0,1.0,0.0),
-		60.0,
-		16.0/9.0,
-		0.1,
-		glm::length(glm::dvec3(0.0,0.0,0.0) - glm::dvec3(0.0,0.0,-1.0)))
+	:
+	m_Camera(glm::dvec3(0.0,0.0,0.0),
+	glm::dvec3(0.0, 0.0, -1.0),
+	glm::dvec3(0.0,1.0,0.0),
+	60.0,
+	16.0/9.0,
+	0.1,
+	glm::length(glm::dvec3(0.0,0.0,0.0) - glm::dvec3(0.0,0.0,-1.0))),
+	m_BackgroundColour(glm::dvec3(0.0))
 {}
 
 void Scene::Construct1() {
+	m_BackgroundColour = glm::dvec3(0.725, 0.890, 0.953);
+
+	HittableObjectList objects;
+
+	std::shared_ptr<Material> green = std::make_shared<Lambertian>(glm::dvec3(0.20, 0.45, 0.10));
+	std::shared_ptr<Material> blue = std::make_shared<Lambertian>(glm::dvec3(0.20, 0.10, 0.45));
+	std::shared_ptr<Material> glass = std::make_shared<Dielectric>(1.5);
+	std::shared_ptr<Material> metal = std::make_shared<Metal>(glm::dvec3(0.8, 0.6, 0.6), 0.2);
+
+	objects.add(std::make_shared<Sphere>(glm::dvec3(0.0, -100.0, 0.0), 100.0, green));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(-1.0, 1.0, 0.0), 1.0, glass));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(-1.0, 1.0, 0.0), -0.9, glass));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(1.0, 1.0, -1.0), 1.0, blue));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(3.0, 1.0, -6.0), 1.0, metal));
+
+	m_HittableObjectList = objects;
+
+	glm::dvec3 cameraPosition(-5.0, 3.0, 5.0);
+	glm::dvec3 lookAt(-1.0, 1.0, 0.0);
+	glm::dvec3 up(0.0, 1.0, 0.0);
+	double focusDistance = glm::length(cameraPosition - lookAt);
+	double aperture = 0.2;
+	double vFOV = 30.0;
+	double imageAspectRatio = 16.0 / 9.0;
+
+	Camera camera(cameraPosition, lookAt, up, vFOV, imageAspectRatio, aperture, focusDistance, 0.0, 1.0);
+
+	m_Camera = camera;
+}
+
+void Scene::Construct2() {
+	m_BackgroundColour = glm::dvec3(0.0);
+
 	HittableObjectList objects;
 
 	std::shared_ptr<Material> red = std::make_shared<Lambertian>(glm::dvec3(0.65, 0.05, 0.05));
@@ -50,6 +86,37 @@ void Scene::Construct1() {
 	double aperture = 0.0;
 	double vFOV = 40.0;
 	double imageAspectRatio = 1.0;
+
+	Camera camera(cameraPosition, lookAt, up, vFOV, imageAspectRatio, aperture, focusDistance, 0.0, 1.0);
+
+	m_Camera = camera;
+}
+
+void Scene::Construct3() {
+	m_BackgroundColour = glm::dvec3(0.725, 0.890, 0.953);
+
+	HittableObjectList objects;
+
+	std::shared_ptr<Material> green = std::make_shared<Lambertian>(glm::dvec3(0.20, 0.45, 0.10));
+	std::shared_ptr<Material> blue = std::make_shared<Lambertian>(glm::dvec3(0.20, 0.10, 0.45));
+	std::shared_ptr<Material> glass = std::make_shared<Dielectric>(1.5);
+	std::shared_ptr<Material> metal = std::make_shared<Metal>(glm::dvec3(0.8, 0.6, 0.6), 0.2);
+
+	objects.add(std::make_shared<Sphere>(glm::dvec3(0.0, -100.0, 0.0), 100.0, green));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(-1.0, 1.0, 0.0), 1.0, glass));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(-1.0, 1.0, 0.0), -0.9, glass));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(1.0, 1.0, -1.0), 1.0, blue));
+	objects.add(std::make_shared<Sphere>(glm::dvec3(3.0, 1.0, -6.0), 1.0, metal));
+
+	m_HittableObjectList = objects;
+
+	glm::dvec3 cameraPosition(-5.0, 3.0, 5.0);
+	glm::dvec3 lookAt(-1.0, 1.0, 0.0);
+	glm::dvec3 up(0.0, 1.0, 0.0);
+	double focusDistance = glm::length(cameraPosition - lookAt);
+	double aperture = 0.2;
+	double vFOV = 30.0;
+	double imageAspectRatio = 16.0 / 9.0;
 
 	Camera camera(cameraPosition, lookAt, up, vFOV, imageAspectRatio, aperture, focusDistance, 0.0, 1.0);
 

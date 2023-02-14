@@ -49,11 +49,10 @@ void main() {
 	// Image details
 
 	const double IMAGE_ASPECT_RATIO = scene.m_Camera.m_ImageAspectRatio;
-	const int32_t IMAGE_WIDTH = 600;
+	const int32_t IMAGE_WIDTH = 800;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
-	const int32_t SAMPLES_PER_PIXEL = 200;
+	const int32_t SAMPLES_PER_PIXEL = 100;
 	const int32_t MAX_RAY_BOUNCES = 50;
-	const glm::dvec3 BACKGROUND_COLOUR(0.0, 0.0, 0.0);
 	const OutputFormat OUTPUT_FORMAT = OutputFormat::JPEG;
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
@@ -72,7 +71,7 @@ void main() {
 				double v = ((double)y + randomDouble()) / (double)(IMAGE_HEIGHT - 1);
 
 				Ray ray = scene.m_Camera.getRay(u, v);
-				pixelColour += rayColour(ray, BACKGROUND_COLOUR, scene.m_HittableObjectList, MAX_RAY_BOUNCES);
+				pixelColour += rayColour(ray, scene.m_BackgroundColour, scene.m_HittableObjectList, MAX_RAY_BOUNCES);
 
 			}
 			renderer.RenderPixel(pixelColour, SAMPLES_PER_PIXEL);
