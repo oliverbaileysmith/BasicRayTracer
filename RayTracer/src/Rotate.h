@@ -1,3 +1,5 @@
+#pragma once
+
 #include "HittableObject.h"
 
 class RotateY : public HittableObject {

@@ -2,7 +2,6 @@
 
 #include "Util.h"
 
-#include "HittableObject.h"
 #include "HittableObjectList.h"
 
 #include <iostream>
@@ -36,14 +35,14 @@ inline bool boxCompare(const shared_ptr<HittableObject> a, const shared_ptr<Hitt
 }
 
 
-bool boxXCompare(const shared_ptr<HittableObject> a, const shared_ptr<HittableObject> b) {
+inline bool boxXCompare(const shared_ptr<HittableObject> a, const shared_ptr<HittableObject> b) {
 	return boxCompare(a, b, 0);
 }
 
-bool boxYCompare(const shared_ptr<HittableObject> a, const shared_ptr<HittableObject> b) {
+inline bool boxYCompare(const shared_ptr<HittableObject> a, const shared_ptr<HittableObject> b) {
 	return boxCompare(a, b, 1);
 }
 
-bool boxZCompare(const shared_ptr<HittableObject> a, const shared_ptr<HittableObject> b) {
+inline bool boxZCompare(const shared_ptr<HittableObject> a, const shared_ptr<HittableObject> b) {
 	return boxCompare(a, b, 2);
 }

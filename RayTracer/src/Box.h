@@ -1,7 +1,9 @@
+#pragma once
+
 #include "Util.h"
 #include "AARect.h"
-#include"HittableObject.h"
-#include"HittableObjectList.h"
+#include "HittableObject.h"
+#include "HittableObjectList.h"
 
 class Box : public HittableObject {
 public:
