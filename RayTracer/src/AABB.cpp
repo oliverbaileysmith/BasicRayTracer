@@ -28,17 +28,17 @@ bool AABB::Hit(const Ray &ray, double tMin, double tMax) const {
 	return true;
 }
 
-AABB buildSurroundingAABB(AABB box0, AABB box1) {
+AABB buildSurroundingAABB(AABB aabb0, AABB aabb1) {
 	glm::dvec3 min(
-		std::fmin(box0.m_Minimum.x, box0.m_Minimum.x),
-		std::fmin(box0.m_Minimum.y, box0.m_Minimum.y),
-		std::fmin(box0.m_Minimum.z, box0.m_Minimum.z)
+		std::fmin(aabb0.m_Minimum.x, aabb1.m_Minimum.x),
+		std::fmin(aabb0.m_Minimum.y, aabb1.m_Minimum.y),
+		std::fmin(aabb0.m_Minimum.z, aabb1.m_Minimum.z)
 	);
 
 	glm::dvec3 max(
-		std::fmax(box0.m_Maximum.x, box0.m_Maximum.x),
-		std::fmax(box0.m_Maximum.y, box0.m_Maximum.y),
-		std::fmax(box0.m_Maximum.z, box0.m_Maximum.z)
+		std::fmax(aabb0.m_Maximum.x, aabb1.m_Maximum.x),
+		std::fmax(aabb0.m_Maximum.y, aabb1.m_Maximum.y),
+		std::fmax(aabb0.m_Maximum.z, aabb1.m_Maximum.z)
 	);
 
 	return AABB(min, max);

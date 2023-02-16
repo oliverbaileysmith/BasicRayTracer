@@ -3,7 +3,6 @@
 #include <cmath>
 #include <limits>
 #include <memory>
-
 #include <cstdlib>
 
 #include "vendor/glm/ext/vector_double3.hpp"

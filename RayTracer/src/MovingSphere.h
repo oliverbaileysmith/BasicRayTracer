@@ -10,9 +10,7 @@ public:
 	~MovingSphere();
 
 	virtual bool Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const override;
-
 	virtual bool buildAABB(double time0, double time1, AABB &outputAABB) const override;
-
 	glm::dvec3 getCenter(double time) const;
 
 private:
@@ -22,5 +20,4 @@ private:
 	double m_Time1;
 	double m_Radius;
 	std::shared_ptr<Material> m_Material;
-
 };

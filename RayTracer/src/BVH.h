@@ -9,16 +9,12 @@
 class BVHNode : public HittableObject {
 public:
 	BVHNode();
-
 	BVHNode(const HittableObjectList &list, double time0, double time1);
-
 	BVHNode(const std::vector<std::shared_ptr<HittableObject>> &sourceObjects, size_t start, size_t end, double time0, double time1);
 
 	virtual bool Hit(const Ray &ray, double tMin, double tMax, HitRecord &hitRecord) const override;
-
 	virtual bool buildAABB(double time0, double time1, AABB &outputAABB) const override;
 
-public:
 	std::shared_ptr<HittableObject> m_Left;
 	std::shared_ptr<HittableObject> m_Right;
 	AABB m_AABB;

@@ -42,9 +42,9 @@ public:
 	virtual bool Scatter(const Ray &rayIncident, const HitRecord &hitRecord, glm::dvec3 &attenuation, Ray &rayScattered) const override;
 
 private:
-	double m_RefractiveIndex;
-
 	static double Reflectance(double cosine, double refractionRatio);
+
+	double m_RefractiveIndex;
 };
 
 class DiffuseLight : public Material {

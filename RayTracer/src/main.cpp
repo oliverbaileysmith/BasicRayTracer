@@ -44,14 +44,16 @@ void main() {
 	// Scene
 
 	Scene scene;
-	scene.Construct3();
+	scene.Construct1();
+	// scene.Construct2();
+	// scene.Construct3();
 
 	// Image details
 
 	const double IMAGE_ASPECT_RATIO = scene.m_Camera.m_ImageAspectRatio;
-	const int32_t IMAGE_WIDTH = 1000;
+	const int32_t IMAGE_WIDTH = 600;
 	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
-	const int32_t SAMPLES_PER_PIXEL = 3000;
+	const int32_t SAMPLES_PER_PIXEL = 200;
 	const int32_t MAX_RAY_BOUNCES = 50;
 	const OutputFormat OUTPUT_FORMAT = OutputFormat::JPEG;
 

@@ -11,7 +11,6 @@ public:
 	glm::dvec3 GetOrigin() const;
 	glm::dvec3 GetDirection() const;
 	double GetTime() const;
-
 	glm::dvec3 GetPositionAtDistance(double t) const;
 
 private:
