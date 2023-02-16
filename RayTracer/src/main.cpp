@@ -41,21 +41,23 @@ glm::dvec3 rayColour(const Ray &ray, const glm::dvec3 &BGColour, const HittableO
 
 void main() {
 
-	// Scene
+	/***** SELECT ONE SCENE BY COMMENTING/UNCOMMENTING BELOW *****/
 
 	Scene scene;
+
 	scene.Construct1();
 	// scene.Construct2();
 	// scene.Construct3();
 
-	// Image details
+	
+	/***** SPECIFY IMAGE WIDTH, SAMPLES PER PIXEL, MAX RAY BOUNCES, AND IMAGE OUTPUT FORMAT BELOW *****/
 
 	const double IMAGE_ASPECT_RATIO = scene.m_Camera.m_ImageAspectRatio;
 	const int32_t IMAGE_WIDTH = 600;
-	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO);
+	const int32_t IMAGE_HEIGHT = (int32_t)(IMAGE_WIDTH / IMAGE_ASPECT_RATIO); // Image height is determined automatically based on the scene's aspect ratio
 	const int32_t SAMPLES_PER_PIXEL = 200;
 	const int32_t MAX_RAY_BOUNCES = 50;
-	const OutputFormat OUTPUT_FORMAT = OutputFormat::JPEG;
+	const OutputFormat OUTPUT_FORMAT = OutputFormat::JPEG; // Supports PPM, BMP, and JPEG
 
 	Renderer renderer(IMAGE_WIDTH, IMAGE_HEIGHT);
 
