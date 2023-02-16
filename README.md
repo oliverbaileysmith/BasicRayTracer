@@ -66,6 +66,7 @@ const OutputFormat OUTPUT_FORMAT = OutputFormat::JPEG; // Supports PPM, BMP, and
 ## Next steps
 
 Some areas of ray tracing / physically based rendering I'd like to explore in the future:
+- Parallelism (each pixel is independent)
 - Triangle primitives to render polygon meshes
 - Automatic acceleration structure (BVH) construction (as opposed to manual definition)
 - Volume rendering and subsurface scattering
