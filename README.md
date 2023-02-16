@@ -1,5 +1,7 @@
 # BasicRayTracer
 
+<img src="RayTracer/gallery/Scene2.jpeg" alt="Sample Scene 2 Render" width=500 height = 500> <img src="RayTracer/gallery/Scene3.jpeg" alt="Sample Scene 3 Render" width=500 height = 500>
+
 ## Summary
 This software ray tracer was built to help me understand the ray tracing algorithm and associated techniques around physically based rendering. I built it by following along with books 1 and 2 of the Ray Tracing in One Weekend series:
 
@@ -24,15 +26,15 @@ This software ray tracer was built to help me understand the ray tracing algorit
 ## Gallery
 
 ### Sample Scene 1
-![Scene1 Render](RayTracer/gallery/Scene1.jpeg)
+![Sample Scene 1 Render](RayTracer/gallery/Scene1.jpeg)
 > 1920x1080, 500 samples per pixel, 50 max ray bounces
 
 ### Sample Scene 2
-![Scene2 Render](RayTracer/gallery/Scene2.jpeg)
+![Sample Scene 2 Render](RayTracer/gallery/Scene2.jpeg)
 > 800x800, 2500 samples per pixel, 50 max ray bounces
 
 ### Sample Scene 3
-![Scene3 Render](RayTracer/gallery/Scene3.jpeg)
+![Sample Scene 3 Render](RayTracer/gallery/Scene3.jpeg)
 > 1000x1000, 3000 samples per pixel, 50 max ray bounces
 
 ## How to use
